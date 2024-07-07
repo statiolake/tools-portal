@@ -5,49 +5,13 @@
   import Sidebar from '$lib/components/Sidebar.svelte';
   import { sidebarStore } from '$lib/stores/sidebarStore';
   import type { Card } from '$lib/types';
+  import { loadToolsConfig } from '$lib/utils/yamlLoader';
   import { onMount } from 'svelte';
 
   let cards: Card[] = [];
 
-  onMount(() => {
-    // カードデータを初期化（実際のアプリケーションではAPIから取得するかもしれません）
-    cards = [
-      {
-        title: 'Jenkins',
-        description: '継続的インテグレーション/デリバリーツール',
-        tags: ['CI/CD', 'デプロイ'],
-        devLink: '#dev-jenkins',
-        prodLink: '#prod-jenkins'
-      },
-      {
-        title: 'Grafana',
-        description: 'メトリクス視覚化・監視ツール',
-        tags: ['モニタリング', 'ログ'],
-        devLink: '#dev-grafana',
-        prodLink: '#prod-grafana'
-      },
-      {
-        title: 'GitLab',
-        description: 'ソースコード管理・CI/CDプラットフォーム',
-        tags: ['コード管理', 'バージョン管理'],
-        devLink: '#dev-gitlab',
-        prodLink: '#prod-gitlab'
-      },
-      {
-        title: 'Confluence',
-        description: 'チーム協業・ドキュメント管理ツール',
-        tags: ['ドキュメント', '共有'],
-        devLink: '#dev-confluence',
-        prodLink: '#prod-confluence'
-      },
-      {
-        title: 'Jira',
-        description: 'プロジェクト・課題管理ツール',
-        tags: ['バグトラッキング', 'タスク管理'],
-        devLink: '#dev-jira',
-        prodLink: '#prod-jira'
-      }
-    ];
+  onMount(async () => {
+    cards = await loadToolsConfig();
   });
 
   function toggleSidebar(): void {
